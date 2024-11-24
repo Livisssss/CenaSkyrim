@@ -65,7 +65,9 @@ private:
 
 	CModel_3DS* pCasa;
 	CModel_3DS* pTreeOld;
-	CModel_3DS* pPine;
+	CModel_3DS* pPedra;
+	CModel_3DS* pCarroca;
+	CModel_3DS* pCavalo;
 
 
 };

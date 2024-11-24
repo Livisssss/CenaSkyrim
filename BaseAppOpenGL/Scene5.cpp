@@ -5,7 +5,7 @@ CScene5::CScene5()
 	pCamera = NULL;
 	pTexto = NULL;
 	pTextures = NULL;
-	
+
 	bIsWireframe = false;
 	bIsCameraFPS = true;
 
@@ -18,7 +18,7 @@ CScene5::CScene5()
 	pTexto = new CTexto();
 
 	// Cria camera
-	pCamera = new CCamera(-300.0f, 300.0f, -1200.0f, 2.0f);
+	pCamera = new CCamera(-620.0f, 500.0f, -900.0f, 2.0f);
 
 	// Cria o Timer
 	pTimer = new CTimer();
@@ -28,16 +28,17 @@ CScene5::CScene5()
 	fRenderPosY = 0.0f;
 
 	// Carrega todas as texturas
-	pTextures = new CTexture();	
+	pTextures = new CTexture();
 
 	pTextures->CreateTextureClamp(0, "../cenario/front.jpg");
 	pTextures->CreateTextureClamp(1, "../cenario/back.jpg");
 	pTextures->CreateTextureClamp(2, "../cenario/down.jpg");
 	pTextures->CreateTextureClamp(3, "../cenario/up.jpg");
 	pTextures->CreateTextureClamp(4, "../cenario/left.jpg");
-	pTextures->CreateTextureClamp(5, "../cenario/right.jpg");;
+	pTextures->CreateTextureClamp(5, "../cenario/right.jpg");
 
-	pTextures->CreateTextureAnisotropic(6, "../Cenario/Terreno1.jpg");
+	pTextures->CreateTextureAnisotropic(6, "../Cenario/Terreno3.jpg");
+
 
 
 
@@ -51,12 +52,26 @@ CScene5::CScene5()
 	// Carrega arvore torta
 	pTreeOld = NULL;
 	pTreeOld = new CModel_3DS();
-	pTreeOld->Load("../Scene5/treeold.3ds");
+	pTreeOld->Load("../Objetos/arvore_seca/arvore.3ds");
 
-	// Carrega pinheiro
-	// pPine = NULL;
-	//pPine = new CModel_3DS();
-	//pPine->Load("../Scene5/pine.3ds");
+
+	// Carrega pedra
+	pPedra = NULL;
+	pPedra = new CModel_3DS();
+	pPedra->Load("../Objetos/pedra/pedra.3ds");
+
+	// Carrega carroca
+	pCarroca = NULL;
+	pCarroca = new CModel_3DS();
+	pCarroca->Load("../Objetos/carroca/carroca.3ds");
+
+	// Carrega cavalo
+	pCavalo = NULL;
+	pCavalo = new CModel_3DS();
+	pCavalo->Load("../Objetos/cavalo/cavalo.3ds");
+
+
+
 
 
 
@@ -106,7 +121,7 @@ CScene5::~CScene5(void)
 	{
 		delete pTimer;
 		pTimer = NULL;
-	}	
+	}
 
 	if (pCasa)
 	{
@@ -118,12 +133,6 @@ CScene5::~CScene5(void)
 	{
 		delete pTreeOld;
 		pTreeOld = NULL;
-	}
-
-	if (pPine)
-	{
-		delete pPine;
-		pPine = NULL;
 	}
 }
 
@@ -169,6 +178,7 @@ int CScene5::DrawGLScene(void)	// Função que desenha a cena
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 
+
 	// Habilita Mapeamento de texturas
 	glEnable(GL_TEXTURE_2D);
 
@@ -203,33 +213,69 @@ int CScene5::DrawGLScene(void)	// Função que desenha a cena
 		}
 
 	}
+
 	else
 	{
 		// Desenha o SkyBox
 		CreateSkyBox(0.0f, 100.0f, 0.0f,  // Centraliza a SkyBox na posição 0, 0, 0
-			10000.0f, 10000.0f, 10000.0f,  // Dimensões da SkyBox em X, Y, Z
+			9000.0f, 9000.0f, 9000.0f,  // Dimensões da SkyBox em X, Y, Z
 			pTextures);
 
 
 		// Desenha o terreno
 		glPushMatrix();
 		glTranslatef(-3000.0f, -70.0f, -3000.0f); // Centraliza o terreno na mesma origem da SkyBox
-		glScalef(4.0f, 3.6f, 3.92f); // Escala para cobrir a largura e o comprimento da SkyBox
+		glScalef(4.0f, 4.0f, 4.0f); // Escala para cobrir a largura e o comprimento da SkyBox
 		pTextures->ApplyTexture(6);
 		pTerreno->RenderHeightMapVA();
 		glPopMatrix();
 
+
+
+
+		// Arvore
 		glPushMatrix();
-		glTranslatef(-800.0, 135.0f, -600.0f);
-		glScalef(14.0f, 13.6f, 13.92f);
-		pTreeOld->Draw();
+		glTranslatef(-1500.0f, 140.0f, -900.0f); // Define posição da árvore
+		glScalef(1.0f, 1.5f, 1.5f); // Reduz a escala da árvore
+		pTreeOld->Draw(); // Desenha a árvore
 		glPopMatrix();
 
+
+		// Pedra1
 		glPushMatrix();
-		glTranslatef(-1300.0, 135.0f, -1000.0f);
-		glScalef(14.0f, 13.6f, 13.92f);
-		pTreeOld->Draw();
+		glTranslatef(200.0f, 132.0f, -1700.0f); // Define posição da árvore
+		glScalef(8.0f, 8.0f, 8.0f); // Reduz a escala da árvore
+		pPedra->Draw(); // Desenha a árvore
 		glPopMatrix();
+
+		// Pedra2
+		glPushMatrix();
+		glTranslatef(-850.0f, 132.0f, 1300.0f); // Define posição da árvore
+		glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+		glScalef(32.0f, 32.0f, 32.0f); // Reduz a escala da árvore
+		pPedra->Draw(); // Desenha a árvore
+		glPopMatrix();
+
+
+		// Carroca
+		glPushMatrix();
+		glTranslatef(-550.0f, 122.0f, -800.0f); // Define posição da árvore
+		glRotatef(70.0f, 0.0f, 1.0f, 0.0f);
+		glScalef(200.0f, 200.0f, 200.0f); // Reduz a escala da árvore
+		pCarroca->Draw(); // Desenha a árvore
+		glPopMatrix();
+
+		// Cavalo
+		glPushMatrix();
+		glTranslatef(-350.0f, 142.0f, -1400.0f); // Define posição da árvore
+		glRotatef(155.0f, 0.0f, 1.0f, 0.0f);
+		glScalef(180.0f, 180.0f, 180.0f); // Reduz a escala da árvore
+		pCavalo->Draw(); // Desenha a árvore
+		glPopMatrix();
+
+
+
+
 
 
 
@@ -240,24 +286,14 @@ int CScene5::DrawGLScene(void)	// Função que desenha a cena
 
 
 		glDisable(GL_BLEND);
-		//glEnable(GL_CULL_FACE);
-
-
-
-
-
-
-
-
-		// Desabilita Mapeamento de texturas
 		glDisable(GL_TEXTURE_2D);
 
 
 
-		//if (bFog == true)
-		//{
-		//	glDisable(GL_FOG);
-		//}
+		if (bFog == true)
+		{
+			glDisable(GL_FOG);
+		}
 
 
 
